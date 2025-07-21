@@ -4243,89 +4243,49 @@ document.getElementById('gpayButton').addEventListener('click', (e) => {
     processUPIPayment('jaishreeraam73@oksbi', 'Google Pay', 'tez://upi/pay?pa=jaishreeraam73@oksbi');
 });
 
-// Common function to handle UPI payments
-function processUPIPayment(upiId, appName, deepLink) {
-    const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
-    const phone = document.getElementById('phone').value;
+confirmOrder.addEventListener('click', (e) => {
+    e.preventDefault();
+    
     const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
     const address = document.getElementById('address').value;
     const pincode = document.getElementById('pincode').value;
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
     
     if (!name || !phone || !address || !pincode) {
-        alert('Please fill all required fields first');
+        alert('Please fill all required fields');
         return;
     }
     
-    const merchantName = 'Prem Misthan Bhandar';
-    const transactionNote = 'Food Order from Prem Misthan Bhandar';
+    if (paymentMethod !== 'cod') {
+        return; // This should be handled by the specific payment buttons
+    }
     
-    // Format amount to remove decimals for UPI
-    const upiAmount = Math.round(totalAmount);
-    
-    // UPI Intent URL (works in browsers and some apps)
-    const upiIntentUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(merchantName)}&am=${upiAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
-    
-    // App-specific deep link with amount
-    const appDeepLink = `${deepLink}&pn=${encodeURIComponent(merchantName)}&am=${upiAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
-    
-    // Generic UPI payment link
-    const genericUpiLink = `https://upayi.link/pay?upi=${upiId}&amount=${upiAmount}&name=${encodeURIComponent(merchantName)}&note=${encodeURIComponent(transactionNote)}`;
+    const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
     
     // Save order details
     const order = {
         customer: { name, phone, address, pincode },
         delivery: document.querySelector('input[name="delivery"]:checked').value,
-        payment: appName.toLowerCase(),
+        payment: 'cash on delivery',
         items: cart,
         subtotal: parseFloat(cartSubtotal.textContent.replace('₹', '')),
         deliveryFee: parseFloat(cartDelivery.textContent.replace('₹', '').replace('FREE', '0')),
         total: totalAmount,
         timestamp: new Date().toISOString(),
-        status: 'payment pending'
+        status: 'pending'
     };
     
     // Save order to Firebase
-    const newOrderRef = database.ref('orders').push();
-    newOrderRef.set(order)
+    database.ref('orders').push(order)
         .then(() => {
-            // Try to open payment in this order:
-            // 1. App directly via deep link with amount
-            // 2. UPI intent with amount
-            // 3. Generic UPI payment page with amount
-            
-            // Create a hidden iframe for the first attempt
-            const iframe = document.createElement('iframe');
-            iframe.src = appDeepLink;
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            
-            // Set timeout to check if app opened
-            setTimeout(() => {
-                document.body.removeChild(iframe);
-                
-                // If still here, try UPI intent
-                window.location.href = upiIntentUrl;
-                
-                // Final fallback after another timeout
-                setTimeout(() => {
-                    window.open(genericUpiLink, '_blank');
-                }, 500);
-            }, 500);
-            
             // Close modal and show confirmation
             checkoutModal.classList.remove('active');
             orderConfirmation.classList.add('active');
             
             // Update confirmation message
             document.querySelector('.order-confirmation p').textContent = 
-                `Your order for ₹${totalAmount} has been placed! Please complete the payment via ${appName}. If the payment app didn't open automatically, please click the payment link we'll send to your WhatsApp.`;
-            
-            // Send payment link via WhatsApp (optional)
-            const whatsappMessage = `Please complete your payment of ₹${totalAmount} for Prem Misthan Bhandar: ${genericUpiLink}`;
-            const whatsappUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(whatsappMessage)}`;
-            
-            // Open WhatsApp in new tab
-            window.open(whatsappUrl, '_blank');
+                `Your order for ₹${totalAmount} has been placed successfully! You'll pay cash when we deliver your order.`;
             
             // Clear cart
             cart = [];
@@ -4337,7 +4297,7 @@ function processUPIPayment(upiId, appName, deepLink) {
         .catch((error) => {
             alert('Error placing order: ' + error.message);
         });
-}
+});
         
         // Close order confirmation
         okBtn.addEventListener('click', () => {
