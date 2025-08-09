@@ -36,16 +36,55 @@
             padding: 0 15px;
         }
         
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+    /* Header Style */
+.custom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, #ff4d4d, orange);
+  padding: 10px 16px;
+  position: relative;
+  z-index: 1000;
+}
+
+/* Hamburger Icon Style */
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Chamach Icon Style */
+.chamach-icon {
+  font-size: 24px;
+  color: white;
+}
+
+/* Dropdown Menu Style */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  padding: 10px 0;
+  z-index: 999;
+  width: 180px;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f2f2f2;
+}
         
         .header-content {
             display: flex;
@@ -341,7 +380,34 @@
             background-color: #27ae60;
             transform: translateY(-2px);
         }
+        .payment-method-content {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px dashed #ddd;
+        }
         
+        .payment-method-content.active {
+            display: block;
+        }
+        
+  
+        .advance-payment-btn:hover {
+            background: #c0392b;
+        }
+       
+        
+        .payment-confirm-btn:hover {
+            background: #27ae60;
+        }
+        
+        .payment-instructions {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
         /* Product Detail View */
         .product-detail-container {
             position: fixed;
@@ -926,96 +992,27 @@
             visibility: visible;
         }
         
-        /* Add these new styles */
-.phonepay-btn {
-    background: #5f259f;
+    .advance-payment-btn {
+    display: inline-block;
+    background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.phonepay-btn:hover {
-    background: #4a1d7d;
-    transform: translateY(-2px);
-}
-
-.phonepay-btn img {
-    height: 30px;
-    object-fit: contain;
-}
-
-.modal-footer.hide-confirm .confirm-btn {
-    display: none;
-}
-
-#phonepayDetails {
-    display: none;
-    margin-top: 15px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
     font-size: 14px;
-    border: 1px dashed #ddd;
-}
-
-#phonepayDetails.active {
-    display: block;
-}
-
-/* Payment buttons */
-.paytm-btn {
-    background: #00baf2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    text-decoration: none;
+    font-weight: 500;
     margin-top: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.paytm-btn:hover {
-    background: #0095da;
+.advance-payment-btn:hover {
+    background-color: #c0392b;
     transform: translateY(-2px);
-}
-
-.paytm-btn img {
-    height: 30px;
-    object-fit: contain;
-}
-
-.gpay-btn {
-    background: #4285F4;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.gpay-btn:hover {
-    background: #3367D6;
-    transform: translateY(-2px);
-}
-
-.gpay-btn img {
-    height: 30px;
-    object-fit: contain;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
         
         /* Checkout Modal */
@@ -1428,7 +1425,26 @@
     <!-- Main App Container -->
     <div class="app-container">
         <!-- Header -->
-        <header>
+        <header class="custom-header">
+  <div class="left">
+    <!-- Hamburger Icon -->
+    <div class="hamburger" onclick="toggleDropdown()">&#9776;</div>
+  </div>
+  
+  <div class="center">
+    <!-- Chamach Icon -->
+    <i class="fas fa-utensils chamach-icon"></i>
+  </div>
+</header>
+
+<!-- Dropdown Menu -->
+<div id="dropdownMenu" class="dropdown-menu">
+  <a href="#">Sign Up</a>
+  <a href="#">Log In</a>
+  <a href="#">User Details</a>
+  <a href="#">Order Details</a>
+  <a href="#">Logout</a>
+</div>
             <div class="container header-content">
                 <div class="logo" id="homeLink">
                     <i class="fas fa-utensils"></i>
@@ -2882,64 +2898,26 @@
     <!-- In your payment options section -->
 <div class="payment-options">
     <h4>Payment Method</h4>
+    
+    <!-- Cash on Delivery Option -->
     <div class="payment-option">
         <input type="radio" id="cod" name="payment" value="cod" checked>
-        <label for="cod">Cash on Delivery</label>
+        <label for="cod">Cash on Delivery (₹50 advance required)</label>
     </div>
-    <div class="payment-option">
-        <input type="radio" id="phonepay" name="payment" value="phonepay">
-        <label for="phonepay">PhonePe</label>
-    </div>
-    <div class="payment-option">
-        <input type="radio" id="paytm" name="payment" value="paytm">
-        <label for="paytm">Paytm</label>
-    </div>
-    <div class="payment-option">
-        <input type="radio" id="gpay" name="payment" value="gpay">
-        <label for="gpay">Google Pay</label>
-    </div>
-    
-    <!-- Payment details sections -->
-    <div class="upi-details" id="phonepayDetails">
-        <p>Click the button below to pay via PhonePe:</p>
-        <button id="phonepayButton" class="phonepay-btn">
-            <img src="https://www.phonepe.com/webstatic/static/images/phonepe_logo_2x.png" alt="PhonePe">
-        </button>
-        <p class="small-text">If PhonePe doesn't open automatically, please install it from <a href="https://play.google.com/store/apps/details?id=com.phonepe.app" target="_blank">Play Store</a></p>
-    </div>
-    
-    <div class="upi-details" id="paytmDetails">
-        <p>Click the button below to pay via Paytm:</p>
-        <button id="paytmButton" class="paytm-btn">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Paytm_logo.png" alt="Paytm">
-        </button>
-        <p class="small-text">If Paytm doesn't open automatically, please install it from <a href="https://play.google.com/store/apps/details?id=net.one97.paytm" target="_blank">Play Store</a></p>
-    </div>
-    
-    <div class="upi-details" id="gpayDetails">
-        <p>Click the button below to pay via Google Pay:</p>
-        <button id="gpayButton" class="gpay-btn">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Google_Pay_%28GPay%29_Logo.svg/512px-Google_Pay_%28GPay%29_Logo.svg.png" alt="Google Pay">
-        </button>
-        <p class="small-text">If Google Pay doesn't open automatically, please install it from <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.paisa.user" target="_blank">Play Store</a></p>
+    <div class="payment-method-content" id="codContent">
+        <p>Please pay ₹50 advance to confirm your order:</p>
+        <a href="https://payments.cashfree.com/links/T90799t3m250" target="_blank" class="advance-payment-btn">
+            Pay ₹50 Advance Now
+        </a>
     </div>
 </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="cancel-btn" id="cancelCheckout">Cancel</button>
-                <button class="confirm-btn" id="confirmOrder">Place Order</button>
-            </div>
+            </form>
         </div>
-        
-        <!-- Order Confirmation -->
-        <div class="order-confirmation" id="orderConfirmation">
-            <i class="fas fa-check-circle"></i>
-            <h3>Order Placed Successfully!</h3>
-            <p>Your order has been placed and will be delivered soon. Thank you for choosing Prem Misthan Bhandar!</p>
-            <button class="ok-btn" id="okBtn">OK</button>
+        <div class="modal-footer">
+            <button class="cancel-btn" id="cancelCheckout">Cancel</button>
+            <button class="confirm-btn" id="confirmOrder">Place Order</button>
         </div>
-        
+    </div>
         <!-- Footer -->
         <footer>
             <div class="container footer-content">
@@ -4205,151 +4183,153 @@
             overlay.classList.remove('active');
         });
         
-       // ===== Payment Method Toggle =====
-document.querySelectorAll('input[name="payment"]').forEach(radio => {
-    radio.addEventListener('change', () => {
-        const paymentMethod = radio.value;
-        const modalFooter = document.querySelector('.modal-footer');
-        
-        // Hide all UPI details first
-        document.querySelectorAll('.upi-details').forEach(detail => {
-            detail.classList.remove('active');
-        });
-        
-        if (paymentMethod === 'cod') {
-            modalFooter.classList.remove('hide-confirm');
-        } else {
-            modalFooter.classList.add('hide-confirm');
-            document.getElementById(`${paymentMethod}Details`).classList.add('active');
-        }
-    });
-});
-
-// ===== PhonePe Payment Button =====
-document.getElementById('phonepayButton').addEventListener('click', (e) => {
-    e.preventDefault();
-    processUPIPayment('7366034767-2@ybl', 'PhonePe', 'phonepe://pay?pa=7366034767-2@ybl');
-});
-
-// ===== Paytm Payment Button =====
-document.getElementById('paytmButton').addEventListener('click', (e) => {
-    e.preventDefault();
-    processUPIPayment('7366034767@ptaxis', 'Paytm', 'paytmmp://pay?pa=7366034767@ptaxis');
-});
-
-// ===== Google Pay Payment Button =====
-document.getElementById('gpayButton').addEventListener('click', (e) => {
-    e.preventDefault();
-    processUPIPayment('jaishreeraam73@oksbi', 'Google Pay', 'tez://upi/pay?pa=jaishreeraam73@oksbi');
-});
-
-confirmOrder.addEventListener('click', (e) => {
-    e.preventDefault();
-    
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
-    const address = document.getElementById('address').value;
-    const pincode = document.getElementById('pincode').value;
-    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-    
-    if (!name || !phone || !address || !pincode) {
-        alert('Please fill all required fields');
-        return;
-    }
-    
-    if (paymentMethod !== 'cod') {
-        return; // This should be handled by the specific payment buttons
-    }
-    
-    const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
-    
-    // Save order details
-    const order = {
-        customer: { name, phone, address, pincode },
-        delivery: document.querySelector('input[name="delivery"]:checked').value,
-        payment: 'cash on delivery',
-        items: cart,
-        subtotal: parseFloat(cartSubtotal.textContent.replace('₹', '')),
-        deliveryFee: parseFloat(cartDelivery.textContent.replace('₹', '').replace('FREE', '0')),
-        total: totalAmount,
-        timestamp: new Date().toISOString(),
-        status: 'pending'
-    };
-    
-    // Save order to Firebase
-    database.ref('orders').push(order)
-        .then(() => {
-            // Close modal and show confirmation
-            checkoutModal.classList.remove('active');
-            orderConfirmation.classList.add('active');
-            
-            // Update confirmation message
-            document.querySelector('.order-confirmation p').textContent = 
-                `Your order for ₹${totalAmount} has been placed successfully! You'll pay cash when we deliver your order.`;
-            
-            // Clear cart
-            cart = [];
-            updateCart();
-            
-            // Reset form
-            document.getElementById('checkoutForm').reset();
-        })
-        .catch((error) => {
-            alert('Error placing order: ' + error.message);
-        });
-});
-        
-        // Close order confirmation
-        okBtn.addEventListener('click', () => {
-            orderConfirmation.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-        
-        // Category filtering
-        document.querySelectorAll('.category-item').forEach(item => {
-            item.addEventListener('click', () => {
-                document.querySelector('.category-item.active').classList.remove('active');
-                item.classList.add('active');
-                
-                const category = item.dataset.category;
-                const productCards = document.querySelectorAll('.product-card');
-                
-                productCards.forEach(card => {
-                    if (category === 'all' || card.dataset.category === category) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
+        // Payment Method Toggle
+        document.querySelectorAll('input[name="payment"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                // Hide all payment method contents
+                document.querySelectorAll('.payment-method-content').forEach(content => {
+                    content.classList.remove('active');
                 });
-            });
-        });
-        
-        // Search functionality
-        const searchInput = document.querySelector('.search-bar input');
-        searchInput.addEventListener('input', () => {
-            const searchTerm = searchInput.value.toLowerCase();
-            const productCards = document.querySelectorAll('.product-card');
-            
-            productCards.forEach(card => {
-                const title = card.querySelector('.product-title').textContent.toLowerCase();
-                if (title.includes(searchTerm)) {
-                    card.style.display = 'block';
+                
+                // Show selected payment method content
+                const selectedContent = document.getElementById(`${radio.value}Content`);
+                if (selectedContent) {
+                    selectedContent.classList.add('active');
+                }
+                
+                // For COD, hide the main Place Order button and show Confirm Payment button
+                if (radio.value === 'cod') {
+                    document.getElementById('confirmOrder').style.display = 'none';
+                    document.getElementById('confirmCodPayment').style.display = 'inline-block';
                 } else {
-                    card.style.display = 'none';
+                    document.getElementById('confirmOrder').style.display = 'inline-block';
+                    document.getElementById('confirmCodPayment').style.display = 'none';
                 }
             });
         });
+
+        // Initialize with COD selected
+        document.getElementById('codContent').classList.add('active');
+        document.getElementById('confirmOrder').style.display = 'none';
+        document.getElementById('confirmCodPayment').style.display = 'inline-block';
+
         
-        // Image switcher for products
-        document.querySelectorAll('.product-image').forEach(imageContainer => {
-            const images = imageContainer.querySelectorAll('img');
-            let currentImage = 0;
+        // Process UPI Payment
+        function processUPIPayment(upiId, method, deepLink) {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const pincode = document.getElementById('pincode').value;
+            const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
             
-            setInterval(() => {
-                images[currentImage].style.display = 'none';
-                currentImage = (currentImage + 1) % images.length;
-                images[currentImage].style.display = 'block';
-            }, 3000);
+            if (!name || !phone || !address || !pincode) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            // Save order details
+            const order = {
+                customer: { name, phone, address, pincode },
+                delivery: document.querySelector('input[name="delivery"]:checked').value,
+                payment: `${method} (full payment)`,
+                items: cart,
+                subtotal: parseFloat(cartSubtotal.textContent.replace('₹', '')),
+                deliveryFee: parseFloat(cartDelivery.textContent.replace('₹', '').replace('FREE', '0')),
+                total: totalAmount,
+                timestamp: new Date().toISOString(),
+                status: 'paid'
+            };
+            
+            // Save order to Firebase
+            database.ref('orders').push(order)
+                .then(() => {
+                    // Open payment link
+                    window.open(deepLink, '_blank');
+                    
+                    // Show confirmation
+                    checkoutModal.classList.remove('active');
+                    orderConfirmation.classList.add('active');
+                    
+                    // Update confirmation message
+                    document.querySelector('.order-confirmation p').textContent = 
+                        `Your order for ₹${totalAmount} has been placed successfully! Payment completed via ${method}.`;
+                    
+                    // Clear cart
+                    cart = [];
+                    updateCart();
+                    
+                    // Reset form
+                    document.getElementById('checkoutForm').reset();
+                })
+                .catch((error) => {
+                    alert('Error placing order: ' + error.message);
+                });
+        }
+
+        // Confirm COD Payment
+        document.getElementById('confirmCodPayment').addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const pincode = document.getElementById('pincode').value;
+            
+            if (!name || !phone || !address || !pincode) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
+            
+            // Save order details
+            const order = {
+                customer: { name, phone, address, pincode },
+                delivery: document.querySelector('input[name="delivery"]:checked').value,
+                payment: 'cash on delivery (₹50 advance paid)',
+                items: cart,
+                subtotal: parseFloat(cartSubtotal.textContent.replace('₹', '')),
+                deliveryFee: parseFloat(cartDelivery.textContent.replace('₹', '').replace('FREE', '0')),
+                total: totalAmount,
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            // Save order to Firebase
+            database.ref('orders').push(order)
+                .then(() => {
+                    // Close modal and show confirmation
+                    checkoutModal.classList.remove('active');
+                    orderConfirmation.classList.add('active');
+                    
+                    // Update confirmation message
+                    document.querySelector('.order-confirmation p').textContent = 
+                        `Your order for ₹${totalAmount} has been placed successfully! ₹50 advance has been paid, remaining ₹${totalAmount-50} will be collected on delivery.`;
+                    
+                    // Clear cart
+                    cart = [];
+                    updateCart();
+                    
+                    // Reset form
+                    document.getElementById('checkoutForm').reset();
+                })
+                .catch((error) => {
+                    alert('Error placing order: ' + error.message);
+                });
+        });
+
+        // Regular Order Confirmation (for non-COD methods)
+        confirmOrder.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            
+            if (paymentMethod === 'cod') {
+                return; // This should be handled by the COD specific button
+            }
+            
+            // For other payment methods, they're handled by their individual buttons
+            alert('Please use the payment button for your selected method');
         });
     </script>
 </body>
@@ -4384,3 +4364,9 @@ confirmOrder.addEventListener('click', (e) => {
         </div>
     </div>
 </footer>
+<script>
+  function toggleDropdown() {
+    const menu = document.getElementById("dropdownMenu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+  }
+    </script>
