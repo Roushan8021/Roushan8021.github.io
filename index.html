@@ -25,16 +25,14 @@
         }
         
         body {
-            background-color: #49d671;
-            color: #333;
-            transition: all 0.3s ease;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
+  background-color: #f6f1de;
+  /* Inline SVG data-URI (fallback) */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill='none' stroke='%23c7bfa4' stroke-width='2' opacity='0.55'><circle cx='130' cy='30' r='12' stroke-width='2'/><path d='M10 30c8 0 14 5 14 11 0 6-6 11-14 11s-14-5-14-11c0-6 6-11 14-11z' transform='translate(10,12)'/><rect x='46' y='64' width='5' height='36' rx='2' transform='rotate(18 48 64)'/><rect x='86' y='86' width='5' height='36' rx='2' transform='rotate(-30 88 86)'/><path d='M70 56v14M76 56v14M82 56v14' transform='rotate(-30 88 86)' stroke-width='1.8'/></g></svg>");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+}
         
     /* Header Style */
 .custom-header {
@@ -380,34 +378,7 @@
             background-color: #27ae60;
             transform: translateY(-2px);
         }
-        .payment-method-content {
-            display: none;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            margin-top: 10px;
-            border: 1px dashed #ddd;
-        }
         
-        .payment-method-content.active {
-            display: block;
-        }
-        
-  
-        .advance-payment-btn:hover {
-            background: #c0392b;
-        }
-       
-        
-        .payment-confirm-btn:hover {
-            background: #27ae60;
-        }
-        
-        .payment-instructions {
-            font-size: 14px;
-            color: #555;
-            margin-top: 10px;
-        }
         /* Product Detail View */
         .product-detail-container {
             position: fixed;
@@ -992,27 +963,96 @@
             visibility: visible;
         }
         
-    .advance-payment-btn {
-    display: inline-block;
-    background-color: var(--primary);
+        /* Add these new styles */
+.phonepay-btn {
+    background: #5f259f;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 10px 20px;
-    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-decoration: none;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     margin-top: 10px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.advance-payment-btn:hover {
-    background-color: #c0392b;
+.phonepay-btn:hover {
+    background: #4a1d7d;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.phonepay-btn img {
+    height: 30px;
+    object-fit: contain;
+}
+
+.modal-footer.hide-confirm .confirm-btn {
+    display: none;
+}
+
+#phonepayDetails {
+    display: none;
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    font-size: 14px;
+    border: 1px dashed #ddd;
+}
+
+#phonepayDetails.active {
+    display: block;
+}
+
+/* Payment buttons */
+.paytm-btn {
+    background: #00baf2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.paytm-btn:hover {
+    background: #0095da;
+    transform: translateY(-2px);
+}
+
+.paytm-btn img {
+    height: 30px;
+    object-fit: contain;
+}
+
+.gpay-btn {
+    background: #4285F4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.gpay-btn:hover {
+    background: #3367D6;
+    transform: translateY(-2px);
+}
+
+.gpay-btn img {
+    height: 30px;
+    object-fit: contain;
 }
         
         /* Checkout Modal */
@@ -2896,28 +2936,37 @@
                     
                     <div class="payment-options">
     <!-- In your payment options section -->
+<!-- Payment options section को इस तरह बदलें -->
+<!-- Inside your checkout modal, replace the payment options section with this: -->
 <div class="payment-options">
     <h4>Payment Method</h4>
-    
-    <!-- Cash on Delivery Option -->
     <div class="payment-option">
-        <input type="radio" id="cod" name="payment" value="cod" checked>
-        <label for="cod">Cash on Delivery (₹50 advance required)</label>
-    </div>
-    <div class="payment-method-content" id="codContent">
-        <p>Please pay ₹50 advance to confirm your order:</p>
-        <a href="https://payments.cashfree.com/links/T90799t3m250" target="_blank" class="advance-payment-btn">
-            Pay ₹50 Advance Now
-        </a>
+        <input type="radio" id="advance" name="payment" value="advance" checked>
+        <label for="advance">Pay ₹50 Advance (via Cashfree)</label>
     </div>
 </div>
-            </form>
+
+<div id="phonepayDetails" class="hide">
+    <p>After clicking "Pay Advance", you'll be redirected to Cashfree to complete your ₹50 advance payment.</p>
+</div>
+
+<!-- UPI details sections को पूरी तरह हटा दें -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" id="cancelCheckout">Cancel</button>
+                <button class="confirm-btn" id="confirmOrder">Place Order</button>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button class="cancel-btn" id="cancelCheckout">Cancel</button>
-            <button class="confirm-btn" id="confirmOrder">Place Order</button>
+        
+        <!-- Order Confirmation -->
+        <div class="order-confirmation" id="orderConfirmation">
+            <i class="fas fa-check-circle"></i>
+            <h3>Order Placed Successfully!</h3>
+            <p>Your order has been placed and will be delivered soon. Thank you for choosing Prem Misthan Bhandar!</p>
+            <button class="ok-btn" id="okBtn">OK</button>
         </div>
-    </div>
+        
         <!-- Footer -->
         <footer>
             <div class="container footer-content">
@@ -4183,153 +4232,144 @@
             overlay.classList.remove('active');
         });
         
-        // Payment Method Toggle
-        document.querySelectorAll('input[name="payment"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                // Hide all payment method contents
-                document.querySelectorAll('.payment-method-content').forEach(content => {
-                    content.classList.remove('active');
+       // Payment Method Toggle को सरल बनाएं
+document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        // कोई विशेष action की जरूरत नहीं है क्योंकि केवल COD है
+    });
+});
+
+// Confirm order function को अपडेट करें
+confirmOrder.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const pincode = document.getElementById('pincode').value;
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+    
+    if (!name || !phone || !address || !pincode) {
+        alert('Please fill all required fields');
+        return;
+    }
+    
+    const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
+    
+    // Save order details
+    const order = {
+        customer: { name, phone, address, pincode },
+        delivery: document.querySelector('input[name="delivery"]:checked').value,
+        payment: paymentMethod === 'advance' ? '50 advance via Cashfree' : 'cash on delivery',
+        items: cart,
+        subtotal: parseFloat(cartSubtotal.textContent.replace('₹', '')),
+        deliveryFee: parseFloat(cartDelivery.textContent.replace('₹', '').replace('FREE', '0')),
+        total: totalAmount,
+        timestamp: new Date().toISOString(),
+        status: paymentMethod === 'advance' ? 'advance paid' : 'pending'
+    };
+    
+    if (paymentMethod === 'advance') {
+        // Open Cashfree payment in new tab
+        window.open('https://payments.cashfree.com/forms/roushan', '_blank');
+        
+        // Save order to Firebase
+        database.ref('orders').push(order)
+            .then(() => {
+                // Close modal and show confirmation
+                checkoutModal.classList.remove('active');
+                orderConfirmation.classList.add('active');
+                
+                // Update confirmation message
+                document.querySelector('.order-confirmation p').textContent = 
+                    `Your order for ₹${totalAmount} has been placed successfully! ₹50 advance has been paid. Remaining ₹${totalAmount-50} to be paid on delivery.`;
+                
+                // Clear cart
+                cart = [];
+                updateCart();
+                
+                // Reset form
+                document.getElementById('checkoutForm').reset();
+            })
+            .catch((error) => {
+                alert('Error placing order: ' + error.message);
+            });
+    } else {
+        // For COD, just save to Firebase
+        database.ref('orders').push(order)
+            .then(() => {
+                // Close modal and show confirmation
+                checkoutModal.classList.remove('active');
+                orderConfirmation.classList.add('active');
+                
+                // Update confirmation message
+                document.querySelector('.order-confirmation p').textContent = 
+                    `Your order for ₹${totalAmount} has been placed successfully! You'll pay cash when we deliver your order.`;
+                
+                // Clear cart
+                cart = [];
+                updateCart();
+                
+                // Reset form
+                document.getElementById('checkoutForm').reset();
+            })
+            .catch((error) => {
+                alert('Error placing order: ' + error.message);
+            });
+    }
+});
+        
+        // Close order confirmation
+        okBtn.addEventListener('click', () => {
+            orderConfirmation.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+        
+        // Category filtering
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelector('.category-item.active').classList.remove('active');
+                item.classList.add('active');
+                
+                const category = item.dataset.category;
+                const productCards = document.querySelectorAll('.product-card');
+                
+                productCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
                 });
-                
-                // Show selected payment method content
-                const selectedContent = document.getElementById(`${radio.value}Content`);
-                if (selectedContent) {
-                    selectedContent.classList.add('active');
-                }
-                
-                // For COD, hide the main Place Order button and show Confirm Payment button
-                if (radio.value === 'cod') {
-                    document.getElementById('confirmOrder').style.display = 'none';
-                    document.getElementById('confirmCodPayment').style.display = 'inline-block';
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'block';
                 } else {
-                    document.getElementById('confirmOrder').style.display = 'inline-block';
-                    document.getElementById('confirmCodPayment').style.display = 'none';
+                    card.style.display = 'none';
                 }
             });
         });
-
-        // Initialize with COD selected
-        document.getElementById('codContent').classList.add('active');
-        document.getElementById('confirmOrder').style.display = 'none';
-        document.getElementById('confirmCodPayment').style.display = 'inline-block';
-
         
-        // Process UPI Payment
-        function processUPIPayment(upiId, method, deepLink) {
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
-            const pincode = document.getElementById('pincode').value;
-            const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
+        // Image switcher for products
+        document.querySelectorAll('.product-image').forEach(imageContainer => {
+            const images = imageContainer.querySelectorAll('img');
+            let currentImage = 0;
             
-            if (!name || !phone || !address || !pincode) {
-                alert('Please fill all required fields');
-                return;
-            }
-            
-            // Save order details
-            const order = {
-                customer: { name, phone, address, pincode },
-                delivery: document.querySelector('input[name="delivery"]:checked').value,
-                payment: `${method} (full payment)`,
-                items: cart,
-                subtotal: parseFloat(cartSubtotal.textContent.replace('₹', '')),
-                deliveryFee: parseFloat(cartDelivery.textContent.replace('₹', '').replace('FREE', '0')),
-                total: totalAmount,
-                timestamp: new Date().toISOString(),
-                status: 'paid'
-            };
-            
-            // Save order to Firebase
-            database.ref('orders').push(order)
-                .then(() => {
-                    // Open payment link
-                    window.open(deepLink, '_blank');
-                    
-                    // Show confirmation
-                    checkoutModal.classList.remove('active');
-                    orderConfirmation.classList.add('active');
-                    
-                    // Update confirmation message
-                    document.querySelector('.order-confirmation p').textContent = 
-                        `Your order for ₹${totalAmount} has been placed successfully! Payment completed via ${method}.`;
-                    
-                    // Clear cart
-                    cart = [];
-                    updateCart();
-                    
-                    // Reset form
-                    document.getElementById('checkoutForm').reset();
-                })
-                .catch((error) => {
-                    alert('Error placing order: ' + error.message);
-                });
-        }
-
-        // Confirm COD Payment
-        document.getElementById('confirmCodPayment').addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
-            const pincode = document.getElementById('pincode').value;
-            
-            if (!name || !phone || !address || !pincode) {
-                alert('Please fill all required fields');
-                return;
-            }
-            
-            const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
-            
-            // Save order details
-            const order = {
-                customer: { name, phone, address, pincode },
-                delivery: document.querySelector('input[name="delivery"]:checked').value,
-                payment: 'cash on delivery (₹50 advance paid)',
-                items: cart,
-                subtotal: parseFloat(cartSubtotal.textContent.replace('₹', '')),
-                deliveryFee: parseFloat(cartDelivery.textContent.replace('₹', '').replace('FREE', '0')),
-                total: totalAmount,
-                timestamp: new Date().toISOString(),
-                status: 'pending'
-            };
-            
-            // Save order to Firebase
-            database.ref('orders').push(order)
-                .then(() => {
-                    // Close modal and show confirmation
-                    checkoutModal.classList.remove('active');
-                    orderConfirmation.classList.add('active');
-                    
-                    // Update confirmation message
-                    document.querySelector('.order-confirmation p').textContent = 
-                        `Your order for ₹${totalAmount} has been placed successfully! ₹50 advance has been paid, remaining ₹${totalAmount-50} will be collected on delivery.`;
-                    
-                    // Clear cart
-                    cart = [];
-                    updateCart();
-                    
-                    // Reset form
-                    document.getElementById('checkoutForm').reset();
-                })
-                .catch((error) => {
-                    alert('Error placing order: ' + error.message);
-                });
-        });
-
-        // Regular Order Confirmation (for non-COD methods)
-        confirmOrder.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-            
-            if (paymentMethod === 'cod') {
-                return; // This should be handled by the COD specific button
-            }
-            
-            // For other payment methods, they're handled by their individual buttons
-            alert('Please use the payment button for your selected method');
+            setInterval(() => {
+                images[currentImage].style.display = 'none';
+                currentImage = (currentImage + 1) % images.length;
+                images[currentImage].style.display = 'block';
+            }, 3000);
         });
     </script>
 </body>
@@ -4369,4 +4409,4 @@
     const menu = document.getElementById("dropdownMenu");
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
   }
-</script>
+    </script>
