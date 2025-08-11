@@ -743,7 +743,121 @@
             color: #888;
             text-align: right;
         }
-        
+        /* Auth Buttons */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-btn {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 20px;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Auth Modals */
+.auth-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  z-index: 1002;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.auth-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-modal .modal-header {
+  padding: 15px 20px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auth-modal .close-modal {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+.auth-modal .modal-body {
+  padding: 20px;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+}
+
+.auth-submit-btn:hover {
+  background-color: #c0392b;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.auth-switch a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* Profile Info */
+#profileInfo {
+  line-height: 1.6;
+}
+
+#profileInfo p {
+  margin-bottom: 10px;
+}
+
+#profileInfo strong {
+  color: var(--dark);
+  display: inline-block;
+  width: 100px;
+}
         /* Cart Sidebar */
         .cart-sidebar {
             position: fixed;
@@ -1464,8 +1578,8 @@
 <body>
     <!-- Main App Container -->
     <div class="app-container">
-        <!-- Header -->
-        <header class="custom-header">
+    <!-- Header -->
+<header class="custom-header">
   <div class="left">
     <!-- Hamburger Icon -->
     <div class="hamburger" onclick="toggleDropdown()">&#9776;</div>
@@ -1474,16 +1588,32 @@
   <div class="center">
     <!-- Chamach Icon -->
     <i class="fas fa-utensils chamach-icon"></i>
+    <span class="logo-text">𝓐𝓫𝓸𝓭 𝓫𝔂 𝓟𝓻𝓮𝓶 𝓜𝓲𝓼𝓽𝓱𝓪𝓷 𝓑𝓱𝓪𝓷𝓭𝓪𝓻</span>
+  </div>
+  
+  <div class="right">
+    <div class="user-actions">
+      <button id="loginBtn" class="auth-btn">Login</button>
+      <button id="signupBtn" class="auth-btn">Sign Up</button>
+    </div>
+    <div class="cart-icon" id="cartIcon">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="cart-count" id="cartCount">0</span>
+    </div>
   </div>
 </header>
 
 <!-- Dropdown Menu -->
 <div id="dropdownMenu" class="dropdown-menu">
-  <a href="#">Sign Up</a>
-  <a href="#">Log In</a>
-  <a href="#">User Details</a>
-  <a href="#">Order Details</a>
-  <a href="#">Logout</a>
+  <a href="#" id="userProfileLink" style="display:none;">
+    <i class="fas fa-user"></i> My Profile
+  </a>
+  <a href="#" id="orderHistoryLink" style="display:none;">
+    <i class="fas fa-history"></i> Order History
+  </a>
+  <a href="#" id="logoutLink" style="display:none;">
+    <i class="fas fa-sign-out-alt"></i> Logout
+  </a>
 </div>
             <div class="container header-content">
                 <div class="logo" id="homeLink">
@@ -2891,7 +3021,104 @@
                 <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
             </div>
         </div>
-        
+        <!-- Login Modal -->
+<div class="auth-modal" id="loginModal">
+  <div class="modal-header">
+    Login
+    <button class="close-modal" id="closeLogin">&times;</button>
+  </div>
+  <div class="modal-body">
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required>
+      </div>
+      <button type="submit" class="auth-submit-btn">Login</button>
+      <p class="auth-switch">Don't have an account? <a href="#" id="switchToSignup">Sign up</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="auth-modal" id="signupModal">
+  <div class="modal-header">
+    Sign Up
+    <button class="close-modal" id="closeSignup">&times;</button>
+  </div>
+  <div class="modal-body">
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" required>
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="signupPhone">Phone Number</label>
+        <input type="tel" id="signupPhone" required>
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required>
+      </div>
+      <div class="form-group">
+        <label for="signupConfirmPassword">Confirm Password</label>
+        <input type="password" id="signupConfirmPassword" required>
+      </div>
+      <button type="submit" class="auth-submit-btn">Create Account</button>
+      <p class="auth-switch">Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- User Profile Modal -->
+<div class="auth-modal" id="profileModal">
+  <div class="modal-header">
+    My Profile
+    <button class="close-modal" id="closeProfile">&times;</button>
+  </div>
+  <div class="modal-body">
+    <div id="profileInfo">
+      <!-- Profile info will be loaded here -->
+    </div>
+    <button id="editProfileBtn" class="auth-submit-btn">Edit Profile</button>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="auth-modal" id="editProfileModal">
+  <div class="modal-header">
+    Edit Profile
+    <button class="close-modal" id="closeEditProfile">&times;</button>
+  </div>
+  <div class="modal-body">
+    <form id="editProfileForm">
+      <div class="form-group">
+        <label for="editName">Full Name</label>
+        <input type="text" id="editName" required>
+      </div>
+      <div class="form-group">
+        <label for="editEmail">Email</label>
+        <input type="email" id="editEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="editPhone">Phone Number</label>
+        <input type="tel" id="editPhone" required>
+      </div>
+      <div class="form-group">
+        <label for="editAddress">Address</label>
+        <textarea id="editAddress" rows="3"></textarea>
+      </div>
+      <button type="submit" class="auth-submit-btn">Save Changes</button>
+    </form>
+  </div>
+</div>
         <!-- Overlay -->
         <div class="overlay" id="overlay"></div>
         
@@ -3011,7 +3238,274 @@
             messagingSenderId: "123456789012",
             appId: "1:123456789012:web:3Q3Q3Q3Q3Q3Q3Q3Q3Q3Q"
         };
+        // Auth functionality
+const loginBtn = document.getElementById('loginBtn');
+const signupBtn = document.getElementById('signupBtn');
+const loginModal = document.getElementById('loginModal');
+const signupModal = document.getElementById('signupModal');
+const profileModal = document.getElementById('profileModal');
+const editProfileModal = document.getElementById('editProfileModal');
+const closeLogin = document.getElementById('closeLogin');
+const closeSignup = document.getElementById('closeSignup');
+const closeProfile = document.getElementById('closeProfile');
+const closeEditProfile = document.getElementById('closeEditProfile');
+const switchToSignup = document.getElementById('switchToSignup');
+const switchToLogin = document.getElementById('switchToLogin');
+const loginForm = document.getElementById('loginForm');
+const signupForm = document.getElementById('signupForm');
+const editProfileForm = document.getElementById('editProfileForm');
+const editProfileBtn = document.getElementById('editProfileBtn');
+const userProfileLink = document.getElementById('userProfileLink');
+const orderHistoryLink = document.getElementById('orderHistoryLink');
+const logoutLink = document.getElementById('logoutLink');
+const userActions = document.querySelector('.user-actions');
+
+// Check if user is logged in
+function checkAuthState() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  
+  if (user) {
+    // User is logged in
+    userActions.style.display = 'none';
+    userProfileLink.style.display = 'block';
+    orderHistoryLink.style.display = 'block';
+    logoutLink.style.display = 'block';
+    
+    // Pre-fill checkout form with user details
+    if (user.address) {
+      document.getElementById('address').value = user.address;
+    }
+    if (user.phone) {
+      document.getElementById('phone').value = user.phone;
+    }
+    if (user.name) {
+      document.getElementById('name').value = user.name;
+    }
+  } else {
+    // User is not logged in
+    userActions.style.display = 'flex';
+    userProfileLink.style.display = 'none';
+    orderHistoryLink.style.display = 'none';
+    logoutLink.style.display = 'none';
+  }
+}
+
+// Open login modal
+loginBtn.addEventListener('click', () => {
+  loginModal.classList.add('active');
+  overlay.classList.add('active');
+});
+
+// Open signup modal
+signupBtn.addEventListener('click', () => {
+  signupModal.classList.add('active');
+  overlay.classList.add('active');
+});
+
+// Close modals
+closeLogin.addEventListener('click', () => {
+  loginModal.classList.remove('active');
+  overlay.classList.remove('active');
+});
+
+closeSignup.addEventListener('click', () => {
+  signupModal.classList.remove('active');
+  overlay.classList.remove('active');
+});
+
+closeProfile.addEventListener('click', () => {
+  profileModal.classList.remove('active');
+  overlay.classList.remove('active');
+});
+
+closeEditProfile.addEventListener('click', () => {
+  editProfileModal.classList.remove('active');
+  overlay.classList.remove('active');
+});
+
+// Switch between login and signup
+switchToSignup.addEventListener('click', (e) => {
+  e.preventDefault();
+  loginModal.classList.remove('active');
+  signupModal.classList.add('active');
+});
+
+switchToLogin.addEventListener('click', (e) => {
+  e.preventDefault();
+  signupModal.classList.remove('active');
+  loginModal.classList.add('active');
+});
+
+// Open profile modal
+userProfileLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  loadProfile();
+  profileModal.classList.add('active');
+  overlay.classList.add('active');
+});
+
+// Load profile data
+function loadProfile() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    document.getElementById('profileInfo').innerHTML = `
+      <p><strong>Name:</strong> ${user.name || 'Not provided'}</p>
+      <p><strong>Email:</strong> ${user.email}</p>
+      <p><strong>Phone:</strong> ${user.phone || 'Not provided'}</p>
+      <p><strong>Address:</strong> ${user.address || 'Not provided'}</p>
+    `;
+  }
+}
+
+// Edit profile
+editProfileBtn.addEventListener('click', () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    document.getElementById('editName').value = user.name || '';
+    document.getElementById('editEmail').value = user.email;
+    document.getElementById('editPhone').value = user.phone || '';
+    document.getElementById('editAddress').value = user.address || '';
+    
+    profileModal.classList.remove('active');
+    editProfileModal.classList.add('active');
+  }
+});
+
+// Save edited profile
+editProfileForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    const updatedUser = {
+      ...user,
+      name: document.getElementById('editName').value,
+      phone: document.getElementById('editPhone').value,
+      address: document.getElementById('editAddress').value
+    };
+    
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    
+    // Update in Firebase (if you want to persist changes)
+    database.ref('users/' + user.id).update({
+      name: updatedUser.name,
+      phone: updatedUser.phone,
+      address: updatedUser.address
+    }).then(() => {
+      alert('Profile updated successfully!');
+      editProfileModal.classList.remove('active');
+      overlay.classList.remove('active');
+      loadProfile();
+    }).catch(error => {
+      alert('Error updating profile: ' + error.message);
+    });
+  }
+});
+
+// Login form submission
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  // Simple validation
+  if (!email || !password) {
+    alert('Please enter both email and password');
+    return;
+  }
+  
+  // In a real app, you would authenticate with Firebase Auth
+  // For this demo, we'll just check against our database
+  database.ref('users').orderByChild('email').equalTo(email).once('value', snapshot => {
+    const users = snapshot.val();
+    if (users) {
+      const userId = Object.keys(users)[0];
+      const user = users[userId];
+      
+      // In a real app, you would verify the password properly
+      if (user.password === password) {
+        // Login successful
+        const userData = {
+          id: userId,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          address: user.address
+        };
         
+        localStorage.setItem('user', JSON.stringify(userData));
+        checkAuthState();
+        
+        loginModal.classList.remove('active');
+        overlay.classList.remove('active');
+        alert('Login successful!');
+      } else {
+        alert('Incorrect password');
+      }
+    } else {
+      alert('User not found');
+    }
+  });
+});
+
+// Signup form submission
+signupForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const name = document.getElementById('signupName').value;
+  const email = document.getElementById('signupEmail').value;
+  const phone = document.getElementById('signupPhone').value;
+  const password = document.getElementById('signupPassword').value;
+  const confirmPassword = document.getElementById('signupConfirmPassword').value;
+  
+  // Validation
+  if (password !== confirmPassword) {
+    alert('Passwords do not match');
+    return;
+  }
+  
+  if (!name || !email || !phone || !password) {
+    alert('Please fill all fields');
+    return;
+  }
+  
+  // Check if user already exists
+  database.ref('users').orderByChild('email').equalTo(email).once('value', snapshot => {
+    if (snapshot.exists()) {
+      alert('Email already registered');
+    } else {
+      // Create new user
+      const newUser = {
+        name,
+        email,
+        phone,
+        password, // In a real app, you would hash this password
+        createdAt: new Date().toISOString()
+      };
+      
+      database.ref('users').push(newUser).then(() => {
+        alert('Account created successfully! Please login.');
+        signupModal.classList.remove('active');
+        overlay.classList.remove('active');
+        signupForm.reset();
+      }).catch(error => {
+        alert('Error creating account: ' + error.message);
+      });
+    }
+  });
+});
+
+// Logout
+logoutLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  localStorage.removeItem('user');
+  checkAuthState();
+  alert('Logged out successfully');
+});
+
+// Initialize auth state
+checkAuthState();
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         
@@ -4409,4 +4903,4 @@ confirmOrder.addEventListener('click', (e) => {
     const menu = document.getElementById("dropdownMenu");
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
   }
-    </script>
+                        </script>
