@@ -180,7 +180,22 @@
             cursor: pointer;
             font-size: 18px;
         }
-        
+        /* Order History Modal Styles */
+.order-item {
+  transition: all 0.3s ease;
+}
+
+.order-item:hover {
+  background-color: rgba(0,0,0,0.02);
+}
+
+.view-order-details {
+  transition: all 0.3s ease;
+}
+
+.view-order-details:hover {
+  background-color: #c0392b !important;
+}
         /* Categories */
         .categories {
             margin: 30px 0;
@@ -251,7 +266,7 @@
         }
         
         .product-card {
-            background-color: white;
+            background: linear-gradient(135deg, #7B2E2E, #FFD479);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -1168,7 +1183,26 @@
     height: 30px;
     object-fit: contain;
 }
-        
+        #getLocation {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+#getLocation:hover {
+    background-color: #3367D6;
+}
+
+#getLocation:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
         /* Checkout Modal */
         .checkout-modal {
             position: fixed;
@@ -1609,8 +1643,8 @@
     <i class="fas fa-user"></i> My Profile
   </a>
   <a href="#" id="orderHistoryLink" style="display:none;">
-    <i class="fas fa-history"></i> Order History
-  </a>
+  <i class="fas fa-history"></i> Order History
+</a>
   <a href="#" id="logoutLink" style="display:none;">
     <i class="fas fa-sign-out-alt"></i> Logout
   </a>
@@ -4732,7 +4766,101 @@ document.querySelectorAll('input[name="payment"]').forEach(radio => {
         // कोई विशेष action की जरूरत नहीं है क्योंकि केवल COD है
     });
 });
+// Add this near your other auth-related code
+orderHistoryLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  showOrderHistory();
+  overlay.classList.add('active');
+});
 
+// Create a modal for order history
+const orderHistoryModal = document.createElement('div');
+orderHistoryModal.className = 'auth-modal';
+orderHistoryModal.id = 'orderHistoryModal';
+orderHistoryModal.innerHTML = `
+  <div class="modal-header">
+    Order History
+    <button class="close-modal" id="closeOrderHistory">&times;</button>
+  </div>
+  <div class="modal-body">
+    <div id="orderHistoryContent" style="max-height: 400px; overflow-y: auto;"></div>
+  </div>
+`;
+document.body.appendChild(orderHistoryModal);
+
+// Close order history modal
+const closeOrderHistory = document.getElementById('closeOrderHistory');
+closeOrderHistory.addEventListener('click', () => {
+  orderHistoryModal.classList.remove('active');
+  overlay.classList.remove('active');
+});
+
+// Function to show order history
+function showOrderHistory() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user) return;
+  
+  orderHistoryModal.classList.add('active');
+  document.getElementById('orderHistoryContent').innerHTML = '<p>Loading your orders...</p>';
+  
+  // Fetch orders from Firebase
+  database.ref('orders').orderByChild('customer/phone').equalTo(user.phone).once('value')
+    .then(snapshot => {
+      const orders = snapshot.val();
+      if (!orders) {
+        document.getElementById('orderHistoryContent').innerHTML = '<p>No orders found.</p>';
+        return;
+      }
+      
+      let html = '';
+      Object.entries(orders).forEach(([orderId, order]) => {
+        const date = new Date(order.timestamp);
+        const formattedDate = date.toLocaleString();
+        
+        html += `
+          <div class="order-item" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
+            <h4 style="margin-bottom: 10px;">Order #${orderId.substring(0, 8)}</h4>
+            <p><strong>Date:</strong> ${formattedDate}</p>
+            <p><strong>Status:</strong> ${order.status || 'completed'}</p>
+            <p><strong>Total:</strong> ₹${order.total.toFixed(2)}</p>
+            <p><strong>Payment:</strong> ${order.payment || 'cash on delivery'}</p>
+            
+            <div style="margin-top: 10px;">
+              <button class="view-order-details" data-orderid="${orderId}" 
+                style="background: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                View Details
+              </button>
+            </div>
+            
+            <div id="details-${orderId}" style="display: none; margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 4px;">
+              <h5>Items:</h5>
+              <ul style="padding-left: 20px;">
+                ${order.items.map(item => `
+                  <li>${item.quantity} x ${item.title} - ₹${item.price.toFixed(2)}</li>
+                `).join('')}
+              </ul>
+              <p><strong>Delivery Address:</strong> ${order.customer.address}, ${order.customer.pincode}</p>
+            </div>
+          </div>
+        `;
+      });
+      
+      document.getElementById('orderHistoryContent').innerHTML = html;
+      
+      // Add event listeners to view details buttons
+      document.querySelectorAll('.view-order-details').forEach(button => {
+        button.addEventListener('click', () => {
+          const orderId = button.dataset.orderid;
+          const detailsDiv = document.getElementById(`details-${orderId}`);
+          detailsDiv.style.display = detailsDiv.style.display === 'none' ? 'block' : 'none';
+        });
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching orders:', error);
+      document.getElementById('orderHistoryContent').innerHTML = '<p>Error loading orders. Please try again.</p>';
+    });
+}
 // Confirm order function को अपडेट करें
 confirmOrder.addEventListener('click', (e) => {
     e.preventDefault();
@@ -4903,4 +5031,78 @@ confirmOrder.addEventListener('click', (e) => {
     const menu = document.getElementById("dropdownMenu");
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
   }
-                        </script>
+  // Get current location
+getLocationBtn.addEventListener('click', () => {
+    if (navigator.geolocation) {
+        getLocationBtn.textContent = 'Getting Location...';
+        getLocationBtn.disabled = true;
+        
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                // Success callback
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                
+                // Reverse geocoding to get address from coordinates
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const address = data.display_name || '';
+                        const pincode = data.address?.postcode || '';
+                        
+                        document.getElementById('address').value = address;
+                        if (pincode) {
+                            document.getElementById('pincode').value = pincode;
+                        }
+                        
+                        getLocationBtn.textContent = 'Location Found!';
+                        setTimeout(() => {
+                            getLocationBtn.textContent = 'Use Current Location';
+                            getLocationBtn.disabled = false;
+                        }, 2000);
+                    })
+                    .catch(error => {
+                        console.error('Error getting address:', error);
+                        getLocationBtn.textContent = 'Error Getting Address';
+                        setTimeout(() => {
+                            getLocationBtn.textContent = 'Use Current Location';
+                            getLocationBtn.disabled = false;
+                        }, 2000);
+                    });
+            },
+            (error) => {
+                // Error callback
+                console.error('Error getting location:', error);
+                let errorMessage = 'Error Getting Location';
+                
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMessage = 'Location access was denied';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMessage = 'Location information unavailable';
+                        break;
+                    case error.TIMEOUT:
+                        errorMessage = 'Location request timed out';
+                        break;
+                }
+                
+                getLocationBtn.textContent = errorMessage;
+                setTimeout(() => {
+                    getLocationBtn.textContent = 'Use Current Location';
+                    getLocationBtn.disabled = false;
+                }, 2000);
+                
+                alert(`Error: ${errorMessage}. Please enter address manually.`);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    } else {
+        alert('Geolocation is not supported by your browser. Please enter address manually.');
+    }
+});
+</script>
