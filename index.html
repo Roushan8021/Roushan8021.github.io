@@ -1091,7 +1091,73 @@
             opacity: 1;
             visibility: visible;
         }
-        
+        /* Emergency Order Button Styles */
+.emergency-btn-container {
+    position: move;
+    bottom: 30px;
+    left: 30px;
+    z-index: 99;
+}
+
+.emergency-btn {
+    background: linear-gradient(to right, #ff0000, #ff4500);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 25px;
+    font-size: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.emergency-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 69, 0, 0.6);
+}
+
+.emergency-btn i {
+    font-size: 20px;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 69, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 69, 0, 0);
+    }
+}
+
+/* Express Delivery Option */
+.express-delivery-option {
+    background-color: #fff8f8;
+    border-left: 4px solid #ff4500;
+}
+
+.express-delivery-option label {
+    color: #ff4500;
+    font-weight: 600;
+}
+
+.express-delivery-notice {
+    color: #ff4500;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+}
+
+.express-delivery-option.active .express-delivery-notice {
+    display: block;
+}
         /* Add these new styles */
 .phonepay-btn {
     background: #5f259f;
@@ -1134,7 +1200,152 @@
 #phonepayDetails.active {
     display: block;
 }
+/* Floating Cart Icon Styles */
+.floating-cart-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+}
 
+.floating-cart-icon {
+    background: linear-gradient(to right, #e74c3c, #f39c12);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.floating-cart-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.floating-cart-icon .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--dark);
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Adjust emergency button position to avoid overlap */
+.emergency-btn-container {
+    bottom: 110px; /* Increased from 30px to make space for cart */
+    left: 30px;
+    z-index: 99;
+}
+/* Emergency Order Page Styles */
+.emergency-order-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 1003;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.emergency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.emergency-header h2 {
+  font-size: 24px;
+  color: var(--primary);
+}
+
+#closeEmergencyPage {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--dark);
+}
+
+.emergency-items-list {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #fff8f8;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+}
+
+.emergency-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.emergency-item:last-child {
+  border-bottom: none;
+}
+
+.emergency-summary {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.emergency-subtotal,
+.emergency-delivery,
+.emergency-total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.emergency-total {
+  font-weight: 600;
+  font-size: 18px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.emergency-notice {
+  background-color: #fff8f8;
+  color: var(--primary);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.emergency-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
 /* Payment buttons */
 .paytm-btn {
     background: #00baf2;
@@ -1630,11 +1841,33 @@
       <button id="loginBtn" class="auth-btn">Login</button>
       <button id="signupBtn" class="auth-btn">Sign Up</button>
     </div>
-    <div class="cart-icon" id="cartIcon">
-      <i class="fas fa-shopping-cart"></i>
-      <span class="cart-count" id="cartCount">0</span>
-    </div>
+<!-- Floating Cart Button -->
+<div class="floating-cart-container">
+  <div class="floating-cart-icon" id="floatingCartIcon">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="floating-cart-count" id="floatingCartCount">0</span>
   </div>
+</div>
+  </div>
+  <!-- Emergency Order Button -->
+<div class="emergency-btn-container">
+    <button class="emergency-btn" id="emergencyOrderBtn">
+        <i class="fas fa-bolt"></i> Emergency Order
+    </button>
+</div>
+<!-- Remove this from your header -->
+<!-- <div class="cart-icon" id="cartIcon">
+  <i class="fas fa-shopping-cart"></i>
+  <span class="cart-count" id="cartCount">0</span>
+</div> -->
+
+<!-- Add this near your emergency button container -->
+<div class="floating-cart-container">
+  <div class="floating-cart-icon" id="cartIcon">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count" id="cartCount">0</span>
+  </div>
+</div>
 </header>
 
 <!-- Dropdown Menu -->
@@ -1654,10 +1887,6 @@
                     <i class="fas fa-utensils"></i>
                     <span>𝓐𝓫𝓸𝓭 𝓫𝔂 𝓟𝓻𝓮𝓶 𝓜𝓲𝓼𝓽𝓱𝓪𝓷 𝓑𝓱𝓪𝓷𝓭𝓪𝓻</span>
                 </div>
-                <div class="cart-icon" id="cartIcon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="cartCount">0</span>
-                </div>
             </div>
         </header>
         
@@ -1674,7 +1903,65 @@
                 <input type="text" placeholder="Search for food...">
                 <button><i class="fas fa-search"></i></button>
             </div>
-            
+            <!-- Emergency Order Page -->
+<div class="emergency-order-page" id="emergencyOrderPage" style="display: none;">
+  <div class="container">
+    <div class="emergency-header">
+      <h2>Emergency Order Summary</h2>
+      <button id="closeEmergencyPage">&times;</button>
+    </div>
+    
+    <div class="emergency-items-list" id="emergencyItemsList">
+      <!-- Items will be added here -->
+    </div>
+    
+    <div class="emergency-summary">
+      <div class="emergency-subtotal">
+        <span>Subtotal:</span>
+        <span id="emergencySubtotal">₹0</span>
+      </div>
+      <div class="emergency-delivery">
+        <span>Express Delivery:</span>
+        <span id="emergencyDelivery">₹100</span>
+      </div>
+      <div class="emergency-total">
+        <span>Total:</span>
+        <span id="emergencyTotal">₹100</span>
+      </div>
+    </div>
+    
+    <form id="emergencyForm">
+      <div class="form-group">
+        <label for="emergencyName">Full Name</label>
+        <input type="text" id="emergencyName" required>
+      </div>
+      <div class="form-group">
+        <label for="emergencyPhone">Phone Number</label>
+        <input type="tel" id="emergencyPhone" required>
+      </div>
+      <div class="form-group">
+        <label for="emergencyAddress">Delivery Address</label>
+        <textarea id="emergencyAddress" rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="emergencyPincode">Pincode</label>
+        <input type="text" id="emergencyPincode" required>
+      </div>
+      <div class="form-group">
+        <button type="button" id="getEmergencyLocation">Use Current Location</button>
+      </div>
+      
+      <div class="emergency-notice">
+        <i class="fas fa-bolt"></i> Your order will be prioritized and delivered within 30 minutes.
+      </div>
+      
+      <div class="emergency-buttons">
+        <button type="button" id="cancelEmergencyOrder" class="cancel-btn">Cancel</button>
+        <button type="submit" id="confirmEmergencyOrder" class="confirm-btn">Place Emergency Order</button>
+      </div>
+    </form>
+  </div>
+</div>
             <!-- Categories -->
             <div class="categories">
                 <div class="section-title">
@@ -4893,7 +5180,7 @@ confirmOrder.addEventListener('click', (e) => {
     
     if (paymentMethod === 'advance') {
         // Open Cashfree payment in new tab
-        window.open('https://payments.cashfree.com/forms/roushan', '_blank');
+        window.open('https://payments.cashfree.com/forms?code=abod-order-cod', '_blank');
         
         // Save order to Firebase
         database.ref('orders').push(order)
@@ -5105,4 +5392,410 @@ getLocationBtn.addEventListener('click', () => {
         alert('Geolocation is not supported by your browser. Please enter address manually.');
     }
 });
-</script>
+// Get emergency order page elements
+const emergencyOrderPage = document.getElementById('emergencyOrderPage');
+const closeEmergencyPage = document.getElementById('closeEmergencyPage');
+const emergencyItemsList = document.getElementById('emergencyItemsList');
+const emergencySubtotal = document.getElementById('emergencySubtotal');
+const emergencyDelivery = document.getElementById('emergencyDelivery');
+const emergencyTotal = document.getElementById('emergencyTotal');
+const cancelEmergencyOrder = document.getElementById('cancelEmergencyOrder');
+const confirmEmergencyOrder = document.getElementById('confirmEmergencyOrder');
+const getEmergencyLocation = document.getElementById('getEmergencyLocation');
+
+// Emergency Order Button Click
+emergencyOrderBtn.addEventListener('click', () => {
+  if (cart.length > 0) {
+    // Show emergency order page
+    emergencyOrderPage.style.display = 'block';
+    overlay.classList.add('active');
+    
+    // Populate emergency items list
+    emergencyItemsList.innerHTML = '';
+    let subtotal = 0;
+    
+    cart.forEach(item => {
+      subtotal += item.price * item.quantity;
+      
+      const itemElement = document.createElement('div');
+      itemElement.className = 'emergency-item';
+      itemElement.innerHTML = `
+        <span>${item.quantity} x ${item.title}</span>
+        <span>₹${(item.price * item.quantity).toFixed(2)}</span>
+      `;
+      
+      emergencyItemsList.appendChild(itemElement);
+    });
+    
+    // Calculate delivery (₹100 extra for emergency)
+    const delivery = 100;
+    const total = subtotal + delivery;
+    
+    emergencySubtotal.textContent = `₹${subtotal.toFixed(2)}`;
+    emergencyDelivery.textContent = `₹${delivery.toFixed(2)}`;
+    emergencyTotal.textContent = `₹${total.toFixed(2)}`;
+    
+    // Pre-fill user details if available
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      document.getElementById('emergencyName').value = user.name || '';
+      document.getElementById('emergencyPhone').value = user.phone || '';
+      document.getElementById('emergencyAddress').value = user.address || '';
+    }
+  } else {
+    alert('Your cart is empty. Please add items before placing an emergency order.');
+  }
+});
+
+// Close emergency order page
+closeEmergencyPage.addEventListener('click', () => {
+  emergencyOrderPage.style.display = 'none';
+  overlay.classList.remove('active');
+});
+
+cancelEmergencyOrder.addEventListener('click', () => {
+  emergencyOrderPage.style.display = 'none';
+  overlay.classList.remove('active');
+});
+
+// Get location for emergency order
+getEmergencyLocation.addEventListener('click', () => {
+  if (navigator.geolocation) {
+    getEmergencyLocation.textContent = 'Getting Location...';
+    getEmergencyLocation.disabled = true;
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+          .then(response => response.json())
+          .then(data => {
+            const address = data.display_name || '';
+            const pincode = data.address?.postcode || '';
+            
+            document.getElementById('emergencyAddress').value = address;
+            if (pincode) {
+              document.getElementById('emergencyPincode').value = pincode;
+            }
+            
+            getEmergencyLocation.textContent = 'Location Found!';
+            setTimeout(() => {
+              getEmergencyLocation.textContent = 'Use Current Location';
+              getEmergencyLocation.disabled = false;
+            }, 2000);
+          })
+          .catch(error => {
+            console.error('Error getting address:', error);
+            getEmergencyLocation.textContent = 'Error Getting Address';
+            setTimeout(() => {
+              getEmergencyLocation.textContent = 'Use Current Location';
+              getEmergencyLocation.disabled = false;
+            }, 2000);
+          });
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        getEmergencyLocation.textContent = 'Error Getting Location';
+        setTimeout(() => {
+          getEmergencyLocation.textContent = 'Use Current Location';
+          getEmergencyLocation.disabled = false;
+        }, 2000);
+      }
+    );
+  } else {
+    alert('Geolocation is not supported by your browser. Please enter address manually.');
+  }
+});
+
+// Confirm emergency order
+confirmEmergencyOrder.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  const name = document.getElementById('emergencyName').value;
+  const phone = document.getElementById('emergencyPhone').value;
+  const address = document.getElementById('emergencyAddress').value;
+  const pincode = document.getElementById('emergencyPincode').value;
+  
+  if (!name || !phone || !address || !pincode) {
+    alert('Please fill all required fields');
+    return;
+  }
+  
+  const subtotal = parseFloat(emergencySubtotal.textContent.replace('₹', ''));
+  const delivery = parseFloat(emergencyDelivery.textContent.replace('₹', ''));
+  const total = subtotal + delivery;
+  
+  // Save order details
+  const order = {
+    customer: { name, phone, address, pincode },
+    delivery: 'express',
+    payment: 'cash on delivery',
+    items: cart,
+    subtotal: subtotal,
+    deliveryFee: delivery,
+    total: total,
+    timestamp: new Date().toISOString(),
+    status: 'pending',
+    isEmergency: true
+  };
+  
+  // Save order to Firebase
+  database.ref('orders').push(order)
+    .then((ref) => {
+      // Get the order ID
+      const orderId = ref.key;
+      
+      // Send notification to worker
+      sendWorkerNotification(order);
+      
+      // Redirect to Cashfree payment page with order details
+      window.open(`https://payments.cashfree.com/forms?code=abod-order&order_id=${orderId}&amount=${total}&name=${encodeURIComponent(name)}&phone=${phone}&email=${encodeURIComponent('customer@example.com')}`, '_blank');
+      
+      // Close emergency page and show confirmation
+      emergencyOrderPage.style.display = 'none';
+      orderConfirmation.classList.add('active');
+      
+      // Update confirmation message
+      document.querySelector('.order-confirmation p').textContent = 
+        `Your emergency order for ₹${total} has been placed successfully! Please complete the payment on the next page.`;
+      
+      // Clear cart
+      cart = [];
+      updateCart();
+      
+      // Reset form
+      document.getElementById('emergencyForm').reset();
+    })
+    .catch((error) => {
+      alert('Error placing emergency order: ' + error.message);
+    });
+});
+
+emergencyOrderBtn.addEventListener('click', () => {
+    // Open checkout modal
+    if (cart.length > 0) {
+        checkoutModal.classList.add('active');
+        overlay.classList.add('active');
+        
+        // Add express delivery option if not already there
+        if (!document.getElementById('expressDelivery')) {
+            const deliveryOptions = document.querySelector('.delivery-options');
+            deliveryOptions.insertBefore(expressDeliveryOption, deliveryOptions.firstChild);
+        }
+        
+        // Select express delivery by default
+        document.getElementById('expressDelivery').checked = true;
+        expressDeliveryOption.classList.add('active');
+        
+        // Update delivery fee
+        const subtotal = parseFloat(cartSubtotal.textContent.replace('₹', ''));
+        const delivery = subtotal >= 500 ? 100 : 150; // ₹100 extra for express
+        const total = subtotal + delivery;
+        
+        cartDelivery.textContent = `₹${delivery.toFixed(2)}`;
+        cartTotal.textContent = `₹${total.toFixed(2)}`;
+    } else {
+        alert('Your cart is empty. Please add items before placing an emergency order.');
+    }
+});
+
+// Listen for delivery option changes
+document.addEventListener('change', (e) => {
+    if (e.target.name === 'delivery') {
+        const subtotal = parseFloat(cartSubtotal.textContent.replace('₹', ''));
+        let delivery = 50; // Default
+        
+        if (e.target.value === 'express') {
+            delivery = subtotal >= 500 ? 100 : 150; // ₹100 extra for express
+            expressDeliveryOption.classList.add('active');
+        } else {
+            delivery = subtotal >= 500 ? 0 : 50;
+            expressDeliveryOption.classList.remove('active');
+        }
+        
+        const total = subtotal + delivery;
+        cartDelivery.textContent = delivery === 0 ? 'FREE' : `₹${delivery.toFixed(2)}`;
+        cartTotal.textContent = `₹${total.toFixed(2)}`;
+    }
+});
+
+// Function to send notification to worker
+function sendWorkerNotification(orderDetails) {
+    // In a real implementation, you would use Firebase Cloud Messaging or Twilio SMS API
+    // This is a simulation that would be replaced with actual API calls
+    
+    const workerPhone = "917366034767"; // Your worker's phone number
+    const message = `🚨 EMERGENCY ORDER ALERT 🚨
+Customer: ${orderDetails.customer.name}
+Phone: ${orderDetails.customer.phone}
+Address: ${orderDetails.customer.address}
+Items: ${orderDetails.items.map(item => `${item.quantity}x ${item.title}`).join(', ')}
+Total: ₹${orderDetails.total}
+Delivery: ${orderDetails.delivery === 'express' ? 'EXPRESS (30 min)' : 'Standard'}`;
+
+    // For demo purposes, we'll log to console and show an alert
+    console.log("Sending notification to worker:", workerPhone);
+    console.log("Message:", message);
+    
+    // In a real app, you would use:
+    // 1. For SMS: Twilio API
+    // 2. For app notifications: Firebase Cloud Messaging
+    
+    alert("Emergency order notification has been sent to your worker!");
+}
+
+// Modify the confirmOrder event listener to handle emergency orders
+confirmOrder.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const pincode = document.getElementById('pincode').value;
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+    const deliveryMethod = document.querySelector('input[name="delivery"]:checked').value;
+    
+    if (!name || !phone || !address || !pincode) {
+        alert('Please fill all required fields');
+        return;
+    }
+    
+    const totalAmount = parseFloat(document.getElementById('cartTotal').textContent.replace('₹', ''));
+    
+    // Save order details
+    const order = {
+        customer: { name, phone, address, pincode },
+        delivery: deliveryMethod,
+        payment: paymentMethod === 'advance' ? '50 advance via Cashfree' : 'cash on delivery',
+        items: cart,
+        subtotal: parseFloat(cartSubtotal.textContent.replace('₹', '')),
+        deliveryFee: parseFloat(cartDelivery.textContent.replace('₹', '').replace('FREE', '0')),
+        total: totalAmount,
+        timestamp: new Date().toISOString(),
+        status: paymentMethod === 'advance' ? 'advance paid' : 'pending',
+        isEmergency: deliveryMethod === 'express'
+    };
+    
+    // If it's an emergency order, send notification
+    if (deliveryMethod === 'express') {
+        sendWorkerNotification(order);
+    }
+    
+    if (paymentMethod === 'advance') {
+        // Open Cashfree payment in new tab
+        window.open('https://payments.cashfree.com/forms/roushan', '_blank');
+        
+        // Save order to Firebase
+        database.ref('orders').push(order)
+            .then(() => {
+                // Close modal and show confirmation
+                checkoutModal.classList.remove('active');
+                orderConfirmation.classList.add('active');
+                
+                // Update confirmation message
+                document.querySelector('.order-confirmation p').textContent = 
+                    `Your order for ₹${totalAmount} has been placed successfully! ₹50 advance has been paid. Remaining ₹${totalAmount-50} to be paid on delivery.`;
+                
+                // Clear cart
+                cart = [];
+                updateCart();
+                
+                // Reset form
+                document.getElementById('checkoutForm').reset();
+            })
+            .catch((error) => {
+                alert('Error placing order: ' + error.message);
+            });
+    } else {
+        // For COD, just save to Firebase
+        database.ref('orders').push(order)
+            .then(() => {
+                // Close modal and show confirmation
+                checkoutModal.classList.remove('active');
+                orderConfirmation.classList.add('active');
+                
+                // Update confirmation message
+                document.querySelector('.order-confirmation p').textContent = 
+                    `Your order for ₹${totalAmount} has been placed successfully! You'll pay cash when we deliver your order.`;
+                
+                // Clear cart
+                cart = [];
+                updateCart();
+                
+                // Reset form
+                document.getElementById('checkoutForm').reset();
+            })
+            .catch((error) => {
+                alert('Error placing order: ' + error.message);
+            });
+    }
+});
+function sendWorkerNotification(orderDetails) {
+  const workerPhone = "917366034767"; // Your worker's phone number
+  
+  // Create a more detailed message
+  const itemsList = orderDetails.items.map(item => 
+    `- ${item.quantity} x ${item.title} (₹${item.price.toFixed(2)} each)`
+  ).join('\n');
+  
+  const message = `🚨 EMERGENCY ORDER ALERT 🚨
+  
+Customer Details:
+Name: ${orderDetails.customer.name}
+Phone: ${orderDetails.customer.phone}
+Address: ${orderDetails.customer.address}
+Pincode: ${orderDetails.customer.pincode}
+
+Order Items:
+${itemsList}
+
+Order Summary:
+Subtotal: ₹${orderDetails.subtotal.toFixed(2)}
+Express Delivery: ₹${orderDetails.deliveryFee.toFixed(2)}
+Total: ₹${orderDetails.total.toFixed(2)}
+
+This is an EMERGENCY ORDER! Please deliver within 30 minutes.`;
+
+  // For demo purposes, we'll log to console and show an alert
+  console.log("Sending emergency notification to worker:", workerPhone);
+  console.log("Message:", message);
+  
+  // In a real app, you would use:
+  // 1. For SMS: Twilio API
+  // 2. For app notifications: Firebase Cloud Messaging
+  
+  alert("Emergency order notification has been sent to your worker!");
+  
+  // You could also add a simulated API call here
+  simulateNotificationAPI(workerPhone, message);
+}
+
+// Simulated notification API function
+function simulateNotificationAPI(phone, message) {
+  console.log(`Simulating sending to ${phone}:`);
+  console.log(message);
+  
+  // In a real implementation, you would have something like:
+  /*
+  fetch('https://your-notification-api.com/send', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      phone: phone,
+      message: message
+    }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Notification sent:', data);
+  })
+  .catch((error) => {
+    console.error('Error sending notification:', error);
+  });
+  */
+}
+          </script>
